@@ -1,9 +1,24 @@
 var express = require('express');
 var router = express.Router();
 
+let flowers = ["Orchid", "Iris", "Hydrangea", "Amaryllis", "Dahlia", "Daffodil", "Bleeding Heart"];
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  let queryFlower = req.query.flower;
+  if (flowers.includes(queryFlower)) {
+    res.send('Yes, we have a(n) ' + queryFlower + ' in our garden!');
+  } else {
+    res.send('Nope, we do not have a(n) ' + queryFlower + ' in our garden..but maybe we should plant it!');
+  }
 });
 
+router.post('/', function(req, res, next) {
+  let bodyFlower = req.body;
+  if (flowers.includes(bodyFlower.flower)) {
+    res.send('We already have that flower, no need to add it!')
+  } else {
+    flowers.push(bodyFlower.flower);
+    res.send(flowers);
+  }
+});
 module.exports = router;
